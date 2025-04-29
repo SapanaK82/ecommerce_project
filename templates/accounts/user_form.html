@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+    <title>ARTIST REGISTRATION</title>
+{% endblock %}
+
+
+{% block content %}
+<form method="post" id="myForm" class="form-control mx-auto w-50" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{form|crispy}}
+    <br>
+    <!--<input type="checkbox" id="add" name="address"> Billing address is same as shipping address-->
+    <br><br>
+    <div class="text-center">
+        <input type="submit" class="btn btn-outline-success btn-sm col-5 me-4">
+        <input type="reset" class="btn btn-outline-warning btn-sm col-5">
+    </div>
+
+</form>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const checkbox = document.getElementById('id_same_as_shipping');
+        const shippingFields = {
+            lane1: document.getElementById('id_shipping_lane1'),
+            lane2: document.getElementById('id_shipping_lane2'),
+            city: document.getElementById('id_shipping_city'),
+            zip: document.getElementById('id_shipping_zip'),
+            state: document.getElementById('id_shipping_state'),
+            country: document.getElementById('id_shipping_country')
+    };
+    const billingFields = {
+            lane1: document.getElementById('id_billing_lane1'),
+            lane2: document.getElementById('id_billing_lane2'),
+            city: document.getElementById('id_billing_city'),
+            zip: document.getElementById('id_billing_zip'),
+            state: document.getElementById('id_billing_state'),
+            country: document.getElementById('id_billing_country')
+    };
+
+    checkbox.addEventListener('change', function () {
+        if (this.checked) {
+            billingFields.lane1.value = shippingFields.lane1.value;
+            billingFields.lane2.value = shippingFields.lane2.value;
+            billingFields.city.value = shippingFields.city.value;
+            billingFields.zip.value = shippingFields.zip.value;
+            billingFields.state.value = shippingFields.state.value;
+            billingFields.country.value = shippingFields.country.value;
+
+            // Make billing fields readonly
+            billingFields.lane1.readOnly = true;
+            billingFields.lane2.readOnly = true;
+            billingFields.city.readOnly = true;
+            billingFields.zip.readOnly = true;
+            billingFields.state.readOnly = true;
+            billingFields.country.readOnly = true;
+
+        } else {
+            billingFields.lane1.readOnly = false;
+            billingFields.lane2.readOnly = false;
+            billingFields.city.readOnly = false;
+            billingFields.zip.readOnly = false;
+            billingFields.state.readOnly = false;
+            billingFields.country.readOnly = false;
+
+            billingFields.lane1.value = '';
+            billingFields.lane2.value = '';
+            billingFields.city.value = '';
+            billingFields.zip.value = '';
+            billingFields.state.value = '';
+            billingFields.country.value = '';
+        }
+    });
+
+    // Optional: if user changes shipping address after checking the box, auto-update billing
+    for (const key in shippingFields) {
+        shippingFields[key].addEventListener('input', function () {
+            if (checkbox.checked) {
+                billingFields[key].value = this.value;
+            }
+        });
+    }
+});
+</script>
+
+
+{% endblock %}

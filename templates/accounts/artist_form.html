@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+    <title>ARTIST REGISTRATION</title>
+{% endblock %}
+
+
+{% block content %}
+<form method="post" class="form-control mx-auto w-50" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{form|crispy}}
+    <input type="submit" class="btn btn-outline-success btn-sm col-5 me-4">
+    <input type="reset" class="btn btn-outline-warning btn-sm col-5">
+
+</form>
+{% endblock %}
