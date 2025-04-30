@@ -1,26 +1,22 @@
 from django import forms
-from .models import Artist, User, Category, Product, ProductImage
-
-
+from .models import Artist, User
 
 class UserModelForm(forms.ModelForm):
     same_as_shipping = forms.BooleanField(required=False, label="Billing address same as shipping address",
                                           initial=False)
-
     class Meta:
         model = User
-        fields = [
-            'first_name', 'last_name', 'email', 'password', 'contact_number', 'alternate_contact_number', 'shipping_lane1', 'shipping_lane2', 'shipping_city', 'shipping_zip', 'shipping_state', 'shipping_country',
-            'billing_lane1', 'billing_lane2', 'billing_city', 'billing_zip', 'billing_state', 'billing_country'
-        ]
+        fields = '__all__' 
 
         labels = {
-    'first_name' : 'FIRST NAME',
-    'last_name' : 'LAST NAME',
-    'email' : 'EMAIL',
-    'password' : 'PASSWORD',
-    'contact_number' : 'CONTACT NUMBER',
-    'alternate_contact_number' : 'ALTERNATE CONTACT NUMBER',
+            'first_name' : 'FIRST NAME',
+            'last_name' : 'LAST NAME',
+            'email' : 'EMAIL',
+            'password' : 'PASSWORD',
+            'contact_number' : 'CONTACT NUMBER',
+            'alternate_contact_number' : 'ALTERNATE CONTACT NUMBER',
+        
+
     # shipping address
     'lane1' : 'LANE 1',
     'lane2' : 'LANE 2',
@@ -37,7 +33,7 @@ class UserModelForm(forms.ModelForm):
     'country1' : 'COUNTRY',
     'created_at' : 'CREATED_AT',
     'updated_at' : 'UPDATED_AT'
-    }
+        }
 
 
 class ArtistModelForm(forms.ModelForm):
@@ -57,48 +53,5 @@ class ArtistModelForm(forms.ModelForm):
     }
 
 
-class CategoryModelForm(forms.ModelForm):
-    class Meta:
-        model = Category
-        fields = '__all__'
-
-        labels = {
-            'category_name' : 'CATEGORY NAME',
-            'description' : 'DESCRIPTION',
-            'created_at' : 'CREATED_AT'
-        }
 
 
-class ProductModelForm(forms.ModelForm):
-    class Meta:
-        model = Product
-        fields = '__all__'
-
-        labels = {
-            'artist' : 'ARTIST',
-            'pname' : 'PRODUCT NAME',
-            'description' : 'DESCRIPTION',
-            'price' : 'PRICE',
-            'material' : 'MATERIAL',
-            'weight' : ' WEIGHT',
-            'dimensions' : 'DIMENSIONS',
-            'COLOR_CHOICES' : 'COLOR_CHOICES',
-            'color' : 'COLOR',
-            'STYLE_CHOICES' : 'STYLE_CHOICES',
-            'style' : 'STYLE',
-            'category' : 'CATEGORY',
-            'images' : 'IMAGES',
-            'is_bestseller' : 'IS BESTSELLER',
-            'created_at' : 'CREATED AT'
-        }
-
-
-class ProductImageModelForm(forms.ModelForm):
-    class Meta:
-        model = ProductImage
-        fields = '__all__'
-
-        labels = {
-            'product' : 'PRODUCT',
-            'image_url' : 'IMAGE URL'
-        }

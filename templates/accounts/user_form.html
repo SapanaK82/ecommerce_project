@@ -7,14 +7,18 @@
 
 
 {% block content %}
-<form method="post" id="myForm" class="form-control mx-auto w-50" enctype="multipart/form-data">
+<form method="post" id="myForm" class="form-control mx-auto w-50 mt-5 mb-4" enctype="multipart/form-data">
     {% csrf_token %}
     {{form|crispy}}
-    <br>
+    <h4>Shipping Address</h4>
+    
     <!--<input type="checkbox" id="add" name="address"> Billing address is same as shipping address-->
-    <br><br>
-    <div class="text-center">
-        <input type="submit" class="btn btn-outline-success btn-sm col-5 me-4">
+   
+   
+    
+    
+    <div class="text-center mb-4">
+        <input type="submit" onclick="alert_added()" class="btn btn-outline-success btn-sm col-5 me-4">
         <input type="reset" class="btn btn-outline-warning btn-sm col-5">
     </div>
 
@@ -83,6 +87,9 @@
         });
     }
 });
+const alert_added = ()=>{
+alert('User Added successfully')
+}
 </script>
 
 
