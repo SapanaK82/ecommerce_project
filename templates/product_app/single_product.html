@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+
+
+{% block title %}
+<title>Single Product</title>
+{% endblock %}
+
+
+{% block content %}
+<div class="container d-flex gap-5 mt-4" style="height: 40vh;">
+    <div class="col">
+        <img src="{{data.images.url}}" class="w-100">
+    </div>
+    <div class="col">
+        <h5>Created By : {{data.artist.user.first_name}} {{data.artist.user.last_name}}</h5><br><br>
+        <h6>Product Name : {{data.pname}}</h6><br>
+        <h6>Product Dimensions : {{data.dimensions}}</h6><br>
+        <h6>Product Style : {{data.style}}</h6><br>
+        <h6>Product Wieght : {{data.weight}}</h6><br>
+        <h6>Product description : {{data.description}}</h6><br><br>
+            <div class="d-flex text-center">
+                <div class="cols">
+                <a href="{% url 'home' %}" style="float:left;"><i class="bi bi-arrow-left-circle-fill fs-3 me-5"></i></a>
+                </div>
+                <div class="col">   
+                <a><button class="btn btn-outline-warning col-3 text-dark me-4">Add to Cart</button></a><br><br>
+                    {% if data.artist.is_authenticated %}
+                        <a href="{% url 'update_product' obj.id %}"><button class="btn btn-outline-success col-3 text-dark me-4">update</button></a>
+                        <a href="{% url 'delete_product' obj.id %}"><button class="btn btn-outline-danger col-3 text-dark">delete</button></a>
+                    {% endif %}
+                </div>
+            </div>
+    </div>
+</div>
+{% endblock %}
+
+
+

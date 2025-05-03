@@ -9,7 +9,7 @@ def category_create_view(request):
         form = CategoryModelForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('home')
+            #return redirect('home')
     template_name = 'category_app/category_form.html'
     context = {'form' : form}
     return render(request, template_name, context)

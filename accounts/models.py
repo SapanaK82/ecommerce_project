@@ -31,19 +31,19 @@ class User(models.Model):
     updated_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f'{self.first_name} {self.first_name}'
+        return f'{self.first_name} {self.last_name}'
 
 
 class Artist(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    bio = models.TextField(max_length=250)
+    bio = models.TextField()
     portfolio_image = models.ImageField(upload_to='images/', blank=True)
-    profile_picture = models.ImageField(upload_to='images/')
-    category = models.CharField(max_length=30,choices=[('painting', 'Painting'),
-                                         ('drawing','drawing'),
-                                         ('sculpture','sculpture'),
-                                         ('photography','photography'),
-                                         ('print','print')])
+    photo = models.ImageField(upload_to='images/')
+    category = models.CharField(max_length=30, choices=[('PAINTING', 'Painting'),
+                                         ('DRAWING','drawing'),
+                                         ('SCULPTURE','sculpture'),
+                                         ('PHOTOGRAPHY','photography'),
+                                         ('PRINT','print')])
     Address = models.CharField(max_length=200)
     rating = models.IntegerField()
     created_at = models.DateTimeField(auto_now_add=True)

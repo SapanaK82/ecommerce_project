@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %}
+<title>All User</title>
+{% endblock %}
+
+
+{% block content %}
+<div class="container mt-4">
+    {% for obj in data.product_set.all %}
+      {% if forloop.first %}
+        <img src="{{ obj.images.url }}" class="w-100" style="height: 40rem;" alt="art1">
+      {% endif %}
+    {% endfor %}
+    <div class="mt-4">
+    <img src="{{data.photo.url}}" alt="Artist Profile" style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover;"><br><br>
+    <h5> {{data.user.first_name}} {{data.user.last_name}}</h5><br>
+    <h6>Category : {{data.category}}</h6><br>
+    <h6>{{data.bio}}</h6><br><br>
+
+    <u><h3 class="text-center">Featured Work</h3></u><br><br>
+    
+    <div class="container">
+      <div class="row">
+        {% for obj in data.product_set.all %}
+          <div class="d-flex">
+            <div class="col   text-center">
+            <img src="{{ obj.images.url }}" class="img-fluid w-50 h-75" alt="Product Image">
+          </div>
+            <div class="col mt-4 mb-4">
+            <h6>Style : {{obj.style}}</h6><br>
+            <h6>Category : {{obj.category}}</h6><br>
+            <h6>Dimensions : {{obj.dimensions}}</h6><br>
+            <h6>Weight : {{obj.weight}}</h6><br>
+            <button class="btn btn-outline-warning col-5 text-black">Add To Cart</button><br><br>
+          </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+    
+  </div>
+
+
+
+  </div>
+{% endblock %}

@@ -1,4 +1,7 @@
 from django.db import models
+
+
+from django.db import models
 from accounts.models import Artist
 from category_app.models import Category
 
@@ -9,10 +12,10 @@ class Product(models.Model):
     artist = models.ForeignKey(Artist, on_delete=models.CASCADE)
     pname = models.CharField(max_length=50)
     description = models.TextField()
-    price = models.FloatField()
-    material = models.CharField(max_length=20)
-    weight = models.FloatField()
-    dimensions = models.CharField(max_length=30)
+    price = models.CharField(max_length=50)
+    material = models.CharField(max_length=50)
+    weight = models.CharField(max_length=50)
+    dimensions = models.CharField(max_length=50)
     COLOR_CHOICES = [
         ('red', 'Red'),
         ('blue', 'Blue'),
@@ -29,7 +32,7 @@ class Product(models.Model):
         ('Expressionism', 'Expressionism'),
         ('Figurative', 'Figurative'),
         ('Modern', 'Modern')]
-    style = models.CharField(max_length=22, choices=STYLE_CHOICES)
+    style = models.CharField(max_length=30, choices=STYLE_CHOICES)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     images = models.ImageField(upload_to='p_images/')
     is_bestseller = models.BooleanField()
@@ -41,4 +44,3 @@ class Product(models.Model):
 class ProductImage(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     image_url = models.ImageField(upload_to='p_images/')
-

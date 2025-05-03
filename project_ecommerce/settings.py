@@ -44,11 +44,23 @@ INSTALLED_APPS = [
     'category_app',
     'home_app',
     'crispy_forms',
+    'cart_app',
+    'auth_app',
+    'wishlist_app',
+    'order_app',
+    'review_app',
     'crispy_bootstrap5'
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap5'
 CRISPY_TEMPLATE_PACK = 'bootstrap5'
+
+
+AUTHENTICATION_BACKENDS = [
+    'accounts.backends.EmailAuthBackend',
+    'django.contrib.auth.backends.ModelBackend',  # Optional fallback
+]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

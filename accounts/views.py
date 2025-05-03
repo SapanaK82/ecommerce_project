@@ -36,7 +36,14 @@ def artist_create_view(request):
     return render(request, template_name, context)
 
 def artist_retrieve_view(request):
-    obj = Artist.objects.all()
+    objs = Artist.objects.all()
     template_name = 'accounts/show_artist.html'
+    context = {'data':objs}
+    return render(request, template_name, context)
+
+
+def artist_page_view(request, pk):
+    obj = Artist.objects.get(id=pk)
+    template_name = 'accounts/artist_page.html'
     context = {'data':obj}
     return render(request, template_name, context)

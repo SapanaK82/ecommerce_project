@@ -1,7 +1,12 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block title %}
+  <title>Home</title>
+  {% endblock %}
+
 {% block content%}
+
 <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-indicators">
       <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -28,5 +33,45 @@
       <span class="visually-hidden">Next</span>
     </button>
   </div>
+  
+  <div class="container mt-5">
+    <div class="row">
+      {% for obj in data %}
+      
+        <div class="col-md-6 mb-4">
+          <div class="card w-100" style="border-color: ghostwhite;">
+            <div class="row g-0 h-100">
+              <div class="col-md-4">
+                <img src="{{ obj.images.url }}" class="img-fluid object-fit-cover rounded-start" style="height: 300px; width: 500px;" alt="...">
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                  <h5 class="card-title">{{ obj.artist.user.first_name }} {{ obj.artist.user.last_name }}</h5>
+                  <h6>{{obj.pname}}</h6>
+                  <h6>Category : {{obj.category}}</h6>
+                  <h6>Style : {{obj.style}}</h6>
+                  <h6>Dimensions : {{obj.dimensions}}</h6>
+                  <h6>Weight : {{obj.weight}}</h6>
+                  <h6>Price : {{obj.price}}</h6><br>
+                  <a href="{% url 'single_product' obj.id %}"><h6>show product</h6></a>
+                    <div>
+            <a href="{% url 'cart_item' obj.id %}"><button class="btn btn-outline-warning text-dark col-5 btn-sm me-4">Add To Cart</button></a>
+                      <i class="bi bi-bookmark-heart fs-2 me-4"></i><br><br>
+                        {% if user.is_authenticated %}
+                            <a href="{% url 'update_product' obj.id %}"><button class="btn btn-outline-success col-3 text-dark me-4">update</button></a>
+                            <a href="{% url 'delete_product' obj.id %}"><button class="btn btn-outline-danger col-3 text-dark">delete</button></a>
+                        {% endif %}
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+      {% endfor %}
+    </div>
+  </div>
+  
+    
 
   {% endblock %}
