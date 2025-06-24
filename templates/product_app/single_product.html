@@ -6,33 +6,81 @@
 <title>Single Product</title>
 {% endblock %}
 
+<style>
+div .text{
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  text-transform: uppercase;
+</style>
 
 {% block content %}
-<div class="container d-flex gap-5 mt-4" style="height: 40vh;">
-    <div class="col">
-        <img src="{{data.images.url}}" class="w-100">
+<div class="container d-flex gap-5 mt-4" style="height:fit-content">
+    <div class="col text-center">
+        <img src="{{data.images.url}}" height="400vh">
     </div>
     <div class="col">
-        <h5>Created By : {{data.artist.user.first_name}} {{data.artist.user.last_name}}</h5><br><br>
-        <h6>Product Name : {{data.pname}}</h6><br>
-        <h6>Product Dimensions : {{data.dimensions}}</h6><br>
-        <h6>Product Style : {{data.style}}</h6><br>
-        <h6>Product Wieght : {{data.weight}}</h6><br>
-        <h6>Product description : {{data.description}}</h6><br><br>
+        <h5 style="font-family: 'Montserrat', sans-serif;">Created By : {{data.artist.user.first_name}} {{data.artist.user.last_name}}</h5><br><br>
+        <h6 style="font-family: 'Montserrat', sans-serif;">Product Name : {{data.pname}}</h6><br>
+        <h6 style="font-family: 'Montserrat', sans-serif;">Product Dimensions : {{data.dimensions}}</h6><br>
+        <h6 style="font-family: 'Montserrat', sans-serif;">Product Style : {{data.style}}</h6><br>
+        <h6 style="font-family: 'Montserrat', sans-serif;">Product Wieght : {{data.weight}}</h6><br>
+        <h6 style="font-family: 'Montserrat', sans-serif;">Product description : {{data.description}}</h6><br><br>
             <div class="d-flex text-center">
                 <div class="cols">
                 <a href="{% url 'home' %}" style="float:left;"><i class="bi bi-arrow-left-circle-fill fs-3 me-5"></i></a>
                 </div>
-                <div class="col">   
-                <a><button class="btn btn-outline-warning col-3 text-dark me-4">Add to Cart</button></a><br><br>
-                    {% if data.artist.is_authenticated %}
-                        <a href="{% url 'update_product' obj.id %}"><button class="btn btn-outline-success col-3 text-dark me-4">update</button></a>
-                        <a href="{% url 'delete_product' obj.id %}"><button class="btn btn-outline-danger col-3 text-dark">delete</button></a>
-                    {% endif %}
+
+                <div class="col">
+              {% if user.is_authenticated %}
+                {% if user != data.artist.user %}
+                  <a href="{% url 'cart_app:cart_add' data.id %}" class="btn btn-outline-warning text-dark btn-sm me-2">
+                    Add To Cart
+                  </a>
+                    <a href="{% url 'add_to_wishlist' data.id %}"><i class="bi bi-bookmark-heart fs-4 me-2"></i></a>
+                    <br><br>
+                 {% endif %}
+              {% else %}
+                <a href="{% url 'signin' %}" class="btn btn-outline-warning text-dark btn-sm me-2">Add to Cart</a>
+              <a href="{% url 'signin' %}"><i class="bi bi-bookmark-heart fs-4 me-2"></i></a><br><br>
+              {% endif %}
+
+
+                {% if user == data.artist.user %}
+                        <a href="{% url 'update_product' data.id %}"><button style="font-family: 'Montserrat', sans-serif;" class="btn btn-outline-success col-3 text-dark me-4">update</button></a>
+                        <a href="{% url 'delete_product' data.id %}"><button style="font-family: 'Montserrat', sans-serif;" class="btn btn-outline-danger col-3 text-dark">delete</button></a>
+                {% endif %}
+
+
+                {% if user != data.artist.user %}
+
+                    <hr width="600px">
+                <a href="{% url 'product_review' data.id %}"><input placeholder="Write your review"></a>
+                    <hr width="600px">
+                     {% endif %}
                 </div>
+
             </div>
     </div>
 </div>
+
+<div class="container ">
+    {% for i in data.productreview_set.all %}
+
+    <a href="{% url 'customer_review' i.id %}"><i class="bi bi-person-circle" style="font-family: 'Montserrat', sans-serif;"></i><h6 style="font-family: 'Montserrat', sans-serif;">{{i.created_by}}</h6></a>
+    <b style="font-family: 'Montserrat', sans-serif;">{{i.title}}</b><br>
+    <h6 style="font-family: 'Montserrat', sans-serif;">{{i.product.pname}}</h6>
+    <h6 style="font-family: 'Montserrat', sans-serif;">{{i.created_at}}</h6>
+    <h6 style="font-family: 'Montserrat', sans-serif;">{{i.content}}</h6>
+    {% if user == i.created_by %}
+    <a href="{% url 'delete_review' i.id  %}"><button class="btn btn-outline-danger btn-sm" type="submit">Remove</button></a>
+    <hr width="600px">
+    {% endif %}
+    {% endfor %}
+
+
+
+</div>
+
 {% endblock %}
 
 

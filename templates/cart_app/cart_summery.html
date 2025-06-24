@@ -1,0 +1,30 @@
+
+{% extends 'base.html' %}
+
+
+{% block title %}
+<title>Cart Summery</title>
+{% endblock %}
+
+{% block content %}
+<div class="container text-center mt-4 ">
+        <h2>Cart Summery</h2>
+        {% for item in cart_items %}
+                <div class="container d-flex mt-4">
+                        <div class="col text-center" style="height: 400px;">
+                                <img src="{{item.product.images.url}}" class="img-fluid w-50 h-75" alt="Product Image">
+                        </div>
+                        <div class="col mt-4 mb-4">
+                                <h6>Product Name :{{ item.product.pname }}</h6><br>
+                                <h6>Product Quantity :{{item.quantity}}<h6><br>
+                                </h6>Product Price :{{item.product.price}}</h6><br><br>
+                                <button class="btn btn-outline-warning me-4">Buy Now</button>
+                                <a href="{% url 'cart_app:remove_item' item.id %}"><button class="btn btn-outline-danger">Remove Item</button></a>
+                        </div>
+                </div>  
+                    
+        {% endfor %}
+        <h4 style="padding-left: 650px;">Total Price : {{total_price}}</h4><br>
+</div>
+
+{% endblock %}

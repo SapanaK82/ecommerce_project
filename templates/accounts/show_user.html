@@ -2,9 +2,35 @@
 
 
 {% block title %}
-<title>All User</title>
-{% endblock %}
+  <title>Show User</title>
+  {% endblock %}
 
+{% block content%}
+    <table class="table table-success">
+        <thead>
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+                <th>City</th>
+                <th>Action</th>
 
-{% block content %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for obj in data %}
+                <tr>
+                    <td>{{obj.first_name}}</td>
+                    <td>{{obj.last_name}}</td>
+                    <td>{{obj.email}}</td>
+                    <td>{{obj.city}}</td>
+                    <td>
+                        <a href="{% url 'update_user' obj.id %}"><input type="button" value="update" class="btn btn-outline-warning"></a>
+                        <a href="{% url 'delete_user' obj.id %}"><input type="button" value="delete" class="btn btn-outline-danger"></a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
 {% endblock %}

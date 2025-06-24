@@ -2,28 +2,23 @@
 {% load crispy_forms_tags %}
 
 {% block title %}
-    <title>ARTIST REGISTRATION</title>
+    <title>User Registration</title>
 {% endblock %}
 
-
 {% block content %}
-<form method="post" id="myForm" class="form-control mx-auto w-50 mt-5 mb-4" enctype="multipart/form-data">
+
+<form method="post" class="form-control w-50 mx-auto">
     {% csrf_token %}
     {{form|crispy}}
-    <h4>Shipping Address</h4>
-    
-    <!--<input type="checkbox" id="add" name="address"> Billing address is same as shipping address-->
-   
-   
-    
-    
-    <div class="text-center mb-4">
-        <input type="submit" onclick="alert_added()" class="btn btn-outline-success btn-sm col-5 me-4">
-        <input type="reset" class="btn btn-outline-warning btn-sm col-5">
+
+    <br><br>
+    <div class="text-center">
+    <input class="btn btn-success col-4 me-3" type="submit">
+    <input class="btn btn-warning col-4" type="reset">
     </div>
 
 </form>
-
+<!--
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const checkbox = document.getElementById('id_same_as_shipping');
@@ -34,63 +29,41 @@
             zip: document.getElementById('id_shipping_zip'),
             state: document.getElementById('id_shipping_state'),
             country: document.getElementById('id_shipping_country')
-    };
-    const billingFields = {
+        };
+        const billingFields = {
             lane1: document.getElementById('id_billing_lane1'),
             lane2: document.getElementById('id_billing_lane2'),
             city: document.getElementById('id_billing_city'),
             zip: document.getElementById('id_billing_zip'),
             state: document.getElementById('id_billing_state'),
             country: document.getElementById('id_billing_country')
-    };
+        };
 
-    checkbox.addEventListener('change', function () {
-        if (this.checked) {
-            billingFields.lane1.value = shippingFields.lane1.value;
-            billingFields.lane2.value = shippingFields.lane2.value;
-            billingFields.city.value = shippingFields.city.value;
-            billingFields.zip.value = shippingFields.zip.value;
-            billingFields.state.value = shippingFields.state.value;
-            billingFields.country.value = shippingFields.country.value;
+        checkbox.addEventListener('change', function () {
+            if (this.checked) {
+                for (const key in shippingFields) {
+                    billingFields[key].value = shippingFields[key].value;
+                    billingFields[key].readOnly = true;
+                }
+            } else {
+                for (const key in billingFields) {
+                    billingFields[key].value = '';
+                    billingFields[key].readOnly = false;
+                }
+            }
+        });
 
-            // Make billing fields readonly
-            billingFields.lane1.readOnly = true;
-            billingFields.lane2.readOnly = true;
-            billingFields.city.readOnly = true;
-            billingFields.zip.readOnly = true;
-            billingFields.state.readOnly = true;
-            billingFields.country.readOnly = true;
-
-        } else {
-            billingFields.lane1.readOnly = false;
-            billingFields.lane2.readOnly = false;
-            billingFields.city.readOnly = false;
-            billingFields.zip.readOnly = false;
-            billingFields.state.readOnly = false;
-            billingFields.country.readOnly = false;
-
-            billingFields.lane1.value = '';
-            billingFields.lane2.value = '';
-            billingFields.city.value = '';
-            billingFields.zip.value = '';
-            billingFields.state.value = '';
-            billingFields.country.value = '';
+        for (const key in shippingFields) {
+            shippingFields[key].addEventListener('input', function () {
+                if (checkbox.checked) {
+                    billingFields[key].value = this.value;
+                }
+            });
         }
     });
 
-    // Optional: if user changes shipping address after checking the box, auto-update billing
-    for (const key in shippingFields) {
-        shippingFields[key].addEventListener('input', function () {
-            if (checkbox.checked) {
-                billingFields[key].value = this.value;
-            }
-        });
-    }
-});
-const alert_added = ()=>{
-alert('User Added successfully')
-}
+    
 </script>
-
+-->
 
 {% endblock %}

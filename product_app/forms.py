@@ -1,4 +1,4 @@
-from .models import Product, ProductImage
+from .models import Product, ProductImage, ProductReview
 from django import forms
 
 
@@ -6,14 +6,14 @@ from django import forms
 class ProductModelForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = '__all__'
+        exclude = ['artist']
 
         labels = {
             'artist' : 'ARTIST',
             'pname' : 'PRODUCT NAME',
             'description' : 'DESCRIPTION',
             'price' : 'PRICE',
-            'material' : 'MATERIAL',
+            'medium' : 'MEDIUM',
             'weight' : ' WEIGHT',
             'dimensions' : 'DIMENSIONS',
             'COLOR_CHOICES' : 'COLOR_CHOICES',
@@ -36,3 +36,8 @@ class ProductImageModelForm(forms.ModelForm):
             'product' : 'PRODUCT',
             'image_url' : 'IMAGE URL'
         }
+
+class ReviewModelForm(forms.ModelForm):
+    class Meta:
+        model = ProductReview
+        fields = ('title', 'content',)

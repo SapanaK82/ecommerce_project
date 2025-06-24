@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+  {% block title %}
+    <title>Product Review</title>
+  {% endblock %}
+
+  {% block content %}
+
+<form method="post" class="container w-50 mt-5 mb-5">
+  {% csrf_token %}
+      {{ form|crispy }}
+  <div class="text-center">
+      <input type="submit" class="btn btn-outline-success me-5">
+      <input type="reset" class="btn btn-outline-warning">
+  </div>
+</form>
+
+  {% endblock %}

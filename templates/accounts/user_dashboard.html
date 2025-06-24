@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>User Dashboard - Craffitti</title>
+{% endblock %}
+
+{% block content %}
+<style>
+  body {
+    background-color: #f4f4f9;
+    font-family: 'Segoe UI', sans-serif;
+  }
+
+  .dashboard-header {
+    padding: 2rem 1rem;
+    background: linear-gradient(135deg, #6e8efb, #a777e3);
+    color: white;
+    border-radius: 0 0 20px 20px;
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .card-dashboard {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+    height: 100%;
+  }
+
+  .card-dashboard:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  }
+
+  .card-dashboard .card-body {
+    padding: 1.5rem;
+  }
+
+  .btn-dashboard {
+    border-radius: 50px;
+    font-weight: 600;
+  }
+</style>
+
+<div class="dashboard-header">
+  <h2>Welcome, {{ user.username }}!</h2>
+  <p>Here's your activity overview and account tools</p>
+</div>
+
+<div class="container my-4">
+  <div class="row g-4">
+
+    <!-- Profile Info -->
+    <div class="col-md-4">
+      <div class="card card-dashboard text-center">
+        <div class="card-body">
+          <img src="https://ui-avatars.com/api/?name={{ user.username }}&background=random" class="rounded-circle mb-3" width="100" height="100" alt="User Avatar">
+          <h5 class="card-title">{{ user.get_first_name|default:user.username }}</h5>
+          <p class="text-muted">{{ user.email }}</p>
+          <a href="" class="btn btn-outline-primary btn-dashboard mt-2">Edit Profile</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dashboard Cards (Buyer Only) -->
+    <div class="col-md-8">
+      <div class="row g-4">
+        <div class="col-sm-6">
+          <div class="card card-dashboard">
+            <div class="card-body">
+              <h5 class="card-title">My Orders</h5>
+              <p class="card-text">Track and view your past purchases.</p>
+              <a href="" class="btn btn-success btn-dashboard">View Orders</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm-6">
+          <div class="card card-dashboard">
+            <div class="card-body">
+              <h5 class="card-title">Wishlist</h5>
+              <p class="card-text">Explore your favorite saved artworks.</p>
+              <a href="{% url 'wishlist' %}" class="btn btn-warning btn-dashboard">Go to Wishlist</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm-6">
+          <div class="card card-dashboard">
+            <div class="card-body">
+              <h5 class="card-title">Reviews</h5>
+              <p class="card-text">See the product reviews</p>
+              <a href="{% url 'customer_review' data.id %}" class="btn btn-info btn-dashboard">Reviews</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm-6">
+          <div class="card card-dashboard">
+            <div class="card-body">
+              <h5 class="card-title">Support</h5>
+              <p class="card-text">Need help? Reach out to our team.</p>
+              <a href="" class="btn btn-secondary btn-dashboard">Contact Us</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

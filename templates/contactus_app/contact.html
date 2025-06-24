@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+    <title>Contact Us</title>
+{% endblock %}
+
+
+{% block content %}
+<form method="post" class="form-control mx-auto w-50 mt-5 mb-5">
+    {% csrf_token %}
+    {{form|crispy}}
+    <div class="text-center mb-2">
+        <input type="submit" class="btn btn-outline-success btn-sm col-5 me-4">
+        <input type="reset" class="btn btn-outline-warning btn-sm col-5">
+    </div>
+</form>
+{% endblock %}

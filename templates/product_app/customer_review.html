@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    <title>Reviews</title>
+{% endblock %}
+
+{% block content %}
+<center><h4 style="font-family: 'Montserrat', sans-serif; text-transform: uppercase;" class="mt-5"><b>Reviews</b></h4></center>
+<div class="container mt-5">
+    <div class="row">
+        {% for obj in data %}
+            <div class="col-md-6 mb-4">
+        <h6 style="font-family: 'Montserrat', sans-serif;">product id      : {{obj.product.id}}</h6>
+        <h6 style="font-family: 'Montserrat', sans-serif;">product name    : {{obj.product.pname}}</h6>
+        <h6 style="font-family: 'Montserrat', sans-serif;">Content         : {{obj.content}}</h6>
+        <h6 style="font-family: 'Montserrat', sans-serif;">Created by      : {{obj.created_by}}</h6>
+        <h6 style="font-family: 'Montserrat', sans-serif;">Created at      : {{obj.created_at}}</h6>
+            <hr>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

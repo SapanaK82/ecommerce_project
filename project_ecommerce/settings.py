@@ -45,21 +45,22 @@ INSTALLED_APPS = [
     'home_app',
     'crispy_forms',
     'cart_app',
-    'auth_app',
     'wishlist_app',
     'order_app',
     'review_app',
-    'crispy_bootstrap5'
+    'crispy_bootstrap5',
+    'contactus_app',
 ]
+
+AUTH_USER_MODEL = 'accounts.CustomUser'
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap5'
 CRISPY_TEMPLATE_PACK = 'bootstrap5'
 
-
-AUTHENTICATION_BACKENDS = [
-    'accounts.backends.EmailAuthBackend',
-    'django.contrib.auth.backends.ModelBackend',  # Optional fallback
-]
+# AUTHENTICATION_BACKENDS = [
+#     'accounts.backends.UsernameAuthBackend',
+#     'django.contrib.auth.backends.ModelBackend',  # Optional fallback
+# ]
 
 
 MIDDLEWARE = [
@@ -82,6 +83,7 @@ TEMPLATES = [
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.request',
+                'cart_app.context_processors.cart_item_count',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],

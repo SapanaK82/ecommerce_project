@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+
+
+{% block title %}
+<title>Delete Artist</title>
+{% endblock %}
+
+
+{% block content %}
+<div class="container mt-4 text-center">
+<h5>Do you really want to delete <span class="text-secondary"><u>"{{user.first_name}} {{user.last_name}}"</u></span> </u></span>?</h5>
+<br><br>
+    <form method="post">
+        {% csrf_token %}
+        <a href="{% url 'artist_page' data.id %}"><button type="submit" class="btn btn-outline-danger text-dark col-6">YES</button></a><br><br>
+    
+        <a href="{% url 'artist_page' data.id  %}"><button type="button" class="btn btn-outline-warning text-dark col-6">NO</button></a>
+    </form>
+</div>
+
+{% endblock %}

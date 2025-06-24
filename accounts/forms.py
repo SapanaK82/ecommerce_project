@@ -1,41 +1,85 @@
 from django import forms
-from .models import Artist, User
+from .models import Artist
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
+from django import forms
+from django.contrib.auth import get_user_model
+import re
 
+CustomUser = get_user_model()
+
+#----------------------user form to register first time with password ---------------------------
 class UserModelForm(forms.ModelForm):
-    same_as_shipping = forms.BooleanField(required=False, label="Billing address same as shipping address",
-                                          initial=False)
+    first_name = forms.CharField(max_length=100)
+    last_name = forms.CharField(max_length=100)
+    email = forms.EmailField()
+    contact_number = forms.CharField(max_length=15)
+    is_artist = forms.BooleanField()
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.set_password(self.cleaned_data['password'])  # hash the password
+        if commit:
+            user.save()
+        return user
+    
+                        
     class Meta:
-        model = User
-        fields = '__all__' 
-
-        labels = {
-            'first_name' : 'FIRST NAME',
-            'last_name' : 'LAST NAME',
-            'email' : 'EMAIL',
-            'password' : 'PASSWORD',
-            'contact_number' : 'CONTACT NUMBER',
-            'alternate_contact_number' : 'ALTERNATE CONTACT NUMBER',
-        
-
-    # shipping address
-    'lane1' : 'LANE 1',
-    'lane2' : 'LANE 2',
-    'city' : 'CITY',
-    'state' : 'STATE',
-    'zipcode' : 'ZIPCODE',
-    'country' : 'COUNTRY',
-    # billing address
-    'lane11' : 'LANE 1',
-    'lane22' : 'LANE 2',
-    'city1' : 'CITY',
-    'state1' : 'STATE',
-    'zipcode1' : 'ZIPCODE',
-    'country1' : 'COUNTRY',
-    'created_at' : 'CREATED_AT',
-    'updated_at' : 'UPDATED_AT'
+        model = CustomUser
+        fields = ('username', 'first_name', 'last_name', 'email', 'password', 
+                  'contact_number', 'address', 'is_artist')
+        widgets = {
+            'password' : forms.PasswordInput(),
+            'is_artist': forms.CheckboxInput(attrs={'required': False})
         }
+        help_texts = {
+            'password': 'Password must be at least 8 characters, include uppercase, lowercase, a number, and a special character.',
+
+        }
+        
+    
+    def clean_password(self):
+        password = self.cleaned_data['password']
+        pattern = r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&+=!]).{8,}$'
+        if not re.match(pattern, password):
+            raise forms.ValidationError(
+                "Password must be at least 8 characters long, include uppercase, lowercase, a number, and a special character."
+            )
+        return password
 
 
+    def __init__(self, *args, **kwargs):
+        super(UserModelForm, self).__init__(*args, **kwargs)
+        self.fields['is_artist'].required = False
+    
+
+#-----to update the form having limited fields---------------------
+class CustomUserUpdateForm(forms.ModelForm):
+    class Meta:
+        model = CustomUser
+        fields = (
+            'first_name', 'last_name', 'email',
+            'address', 'contact_number',
+        )
+    
+#--------------------------To update username and password------------------------------
+
+class UsernamePasswordUpdate(forms.ModelForm):
+    class Meta:
+        model = CustomUser
+        fields = ('username', 'password')
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.set_password(self.cleaned_data['password'])  # hash the password
+        if commit:
+            user.save()
+        return user
+
+
+    
+
+#----------Artist Registration--------------------------
 class ArtistModelForm(forms.ModelForm):
     class Meta:
         model = Artist

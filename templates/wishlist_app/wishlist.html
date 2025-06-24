@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    <title>My Wishlist</title>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5 mb-5">
+<b><p class="text-center" style="font-family: 'Montserrat', sans-serif; font-size: 20px;">My Wishlist</p></b>
+<ul>
+  {% for item in wishlist_items %}
+    <li>
+      <div style="font-family: 'Montserrat', sans-serif; font-size: 14px;">{{item.product.id}} - {{ item.product.pname }} -
+      <a href="{% url 'remove_from_wishlist' item.product.id %}" class="btn btn-outline-warning btn-sm">Remove</a></div>
+      <br><br>
+    </li>
+  {% empty %}
+    <li>No items in wishlist</li>
+  {% endfor %}
+</ul>
+</div>
+
+{% endblock %}

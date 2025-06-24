@@ -2,7 +2,7 @@ from django.db import models
 
 
 from django.db import models
-from accounts.models import Artist
+from accounts.models import Artist, CustomUser
 from category_app.models import Category
 
 
@@ -12,8 +12,8 @@ class Product(models.Model):
     artist = models.ForeignKey(Artist, on_delete=models.CASCADE)
     pname = models.CharField(max_length=50)
     description = models.TextField()
-    price = models.CharField(max_length=50)
-    material = models.CharField(max_length=50)
+    price = models.FloatField()
+    medium = models.CharField(max_length=50)
     weight = models.CharField(max_length=50)
     dimensions = models.CharField(max_length=50)
     COLOR_CHOICES = [
@@ -44,3 +44,11 @@ class Product(models.Model):
 class ProductImage(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     image_url = models.ImageField(upload_to='p_images/')
+
+
+class ProductReview(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    created_by = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    title = models.CharField(max_length=100)
+    content = models.CharField(max_length=500)
+    created_at = models.DateTimeField(auto_now_add=True)

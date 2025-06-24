@@ -10,58 +10,161 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
     <script src="{% static 'bootstrap-5.0.2-dist/js/bootstrap.min.js' %}"></script>
-</head>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+
+
+<style>
+  footer pre {
+  font-family: inherit;
+  font-size: 1rem;
+  text-align: left;
+}
+
+footer .col {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+nav .nav_text{
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  text-transform: uppercase;
+}
+
+
+</style>
+
+  </head>
+
 <body>
-  <div class="d-flex">
-    <div  style="padding-left:800px;" class="col me-4 mt-4">
-    <form>
-        <input type="text" name="search" class="form-control w-100" placeholder="Search art or artist">
-    </form>
-    </div>
-    <div class="col mt-4">
-    <i class="bi bi-cart4 fs-3 me-4"></i>
-    <i class="bi bi-bookmark-heart fs-3"></i>
-    </div>
-  </div>
-</div>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        
-        <div class="container-fluid">
-            <div class="text-center me-4">
-                <img src="{% static 'logo/logo.png/' %}" height="80px"><br>
-                <!--<a class="navbar-brand" href="#">Craffitti</a>-->
+<div class="sticky-top bg-light">
+  <div class="d-flex justify-content-between align-items-center px-4 py-3">
+
+  <!-- Left: Search Bar -->
+      <form>
+              <div class="input-group">
+              <span class="input-group-text bg-white border-end-0">
+                <i class="bi bi-search"></i>
+              </span>
+              <input type="text" class="form-control border-start-0" style="width:350px; font-family: 'Montserrat', sans-serif; font-size:14px" name='searches' placeholder="Search artwork by category or artist name">
             </div>
+      </form>
+  <!-- Center: Logo -->
+  <div class="col-4 d-flex justify-content-center">
+    <img src="{% static 'logo/logo.png/' %}" height="60px" alt="Logo">
+  </div>
+
+  <!-- Right: Cart -->
+  <div class="col-4 d-flex justify-content-center align-items-center">
+       {% if user.is_authenticated %}
+    <a href="{% url 'cart_app:cart_summery' %}" class="nav-link me-3  nav_text">
+      <i class="bi bi-cart4 fs-5">
+        <span class="text-dark fs-5">Cart</span>
+        <span class="badge bg-warning text-dark">{{ cart_item_count }}</span>
+      </i>
+    </a>
+
+    <a href="{% url 'wishlist' %}"><i class="bi bi-bookmark-heart fs-3"></i></a>
+      {% else %}
+      <a href="{% url 'signin' %}" class="nav-link me-3  nav_text">
+      <i class="bi bi-cart4 fs-5">
+        <span class="text-dark fs-5">Cart</span>
+        <span class="badge bg-warning text-dark">{{ cart_item_count }}</span>
+      </i>
+    </a>
+      <a href="{% url 'signin' %}"><i class="bi bi-bookmark-heart fs-3"></i></a>
+      {% endif %}
+  </div>
+
+</div>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" >
+
+        <div class="container-fluid col" style="padding-left:350px">
+
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-              <a class="nav-link active text-black fs-6" aria-current="page" href="{% url 'home' %}">Home</a>
+              <a class="nav-link active text-black me-3 nav_text" aria-current="page" href="{% url 'home' %}">Home</a>
               <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle active text-black fs-6" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-current="page">
+                <a class="nav-link dropdown-toggle active text-black me-3 nav_text" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-current="page">
                   Category
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <li><a class="dropdown-item mb-2" href="#">Painting</a></li>
-                  <li><a class="dropdown-item mb-2" href="#">Drawing</a></li>
-                  <li><a class="dropdown-item mb-2" href="#">Sculpture</a></li>
-                  <li><a class="dropdown-item mb-2" href="#">Photography</a></li>
-                  <li><a class="dropdown-item mb-2" href="#">Print</a></li>
+                  <li><a class="dropdown-item mb-2 nav_text" href="http://127.0.0.1:8000/?search=Painting">Painting</a></li>
+                  <li><a class="dropdown-item mb-2 nav_text" href="http://127.0.0.1:8000/?search=Drawing">Drawing</a></li>
+                  <li><a class="dropdown-item mb-2 nav_text" href="http://127.0.0.1:8000/?search=Sculpture">Sculpture</a></li>
+                  <li><a class="dropdown-item mb-2 nav_text" href="http://127.0.0.1:8000/?search=Photography">Photography</a></li>
+                  <li><a class="dropdown-item mb-2 nav_text" href="http://127.0.0.1:8000/?search=Print">Print Art</a></li>
                 </ul>
               </li>
-              <a class="nav-link active text-black fs-6" href="{% url 'show_artist' %}">Artist</a>
-              <a class="nav-link active text-black fs-6" href="#">Contact Us</a>
-              {% if user.is_authenticated %}
-              <a class="nav-link active text-black fs-6" href="#" style="padding-left: 400px;">Log Out</a>
+              <a class="nav-link active text-black me-3 nav_text" href="{% url 'show_artist' %}">Artist</a>
+              <a class="nav-link active text-black nav_text" href="{% url 'contactus' %}">Contact Us</a>
+
+                {% if user.is_authenticated and not user.is_artist %}
+                <a class="nav-link active text-black me-3 nav_text" href="{% url 'dashboard' user.id %}">My Dashboard</a>
+                {% endif %}
+              <!--<a class="nav-link active text-black fs-6" href="{% url 'show_user' %}">Show Users</a>-->
+              <a class="nav-link active text-black me-3 nav_text" href="{% url 'faq' %}">FAQs</a>
+            {% if user.is_authenticated %}
+              <div style="padding-left:300px;" class="col">
+              <li class="nav-item dropdown ms-auto">
+              <a class="nav-link dropdown-toggle text-black nav_text" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Hi {{ user.username }} <i class="bi bi-person-raised-hand"></i>
+              </a>
+         {% if user.is_artist %}
+                  <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+
+                    <li><a class="dropdown-item mb-2 nav_text" href="{% url 'product' %}">Add Products</a></li>
+                    <li><a class="dropdown-item mb-2 nav_text" href="{% url 'cart_app:cart_summery' %}">Cart</a></li>
+                    <li><a href="{% url 'logout' %}" class="dropdown-item mb-2 nav_text">Log Out</a></li>
+                  </ul>
+                  {% else %}
+                  <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                    <li><a class="dropdown-item mb-2 nav_text">Orders</a></li>
+                    <li><a class="dropdown-item mb-2 nav_text" href="{% url 'cart_app:cart_summery' %}">Cart</a></li>
+                    <li><a class="dropdown-item mb-2 nav_text" href="{% url 'wishlist' %}">My Wishlist</a></li>
+                    <li><a href="{% url 'artist_url' %}" class="dropdown-item mb-2 nav_text">Become an Artist</a></li>
+                    <li><a href="{% url 'logout' %}" class="dropdown-item mb-2 nav_text">Log Out</a></li>
+                  </ul>
+                  {% endif %}
+              </li>
+              </div>
+    {% else %}
+              <a class="nav-link active text-black nav_text" href="{% url 'signin' %}" style="padding-left:200px;">Sign In</a>
+              <a class="nav-link active text-black nav_text" href="{% url 'user_url' %}">Sign Up</a>
               {% endif %}
-              <a class="nav-link active text-black fs-6" href="#" style="padding-left:800px;">Sign In</a>
-              <a class="nav-link active text-black fs-6" href="{% url 'user_url' %}">Sign Up</a>
             </div>
           </div>
         </div>
       </nav>
+  </div>
 {% block content %}
 {% endblock %}
+<footer class="bg-light py-5">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <h5>Categories</h5>
+        <ul class="list-unstyled">
+          <li>Abstract</li>
+          <li>Painting</li>
+          <li>Fine Art</li>
+          <li>Artist</li>
+        </ul>
+      </div>
+      <div class="col-md-6 text-md-start text-center">
+        <h3>We are <br><span class="text-danger">Available Here....</span></h3>
+        <p><i class="bi bi-building"></i> ABC, office no. 456, 6th floor, Dahiwalkar layout, Umarsara, Pune, Maharashtra - 445001</p>
+        <p><i class="bi bi-telephone-outbound-fill"></i> +91 879 987 6789</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
 
 </body>
 </html>

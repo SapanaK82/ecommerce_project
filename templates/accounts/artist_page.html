@@ -3,12 +3,15 @@
 
 
 {% block title %}
-<title>All User</title>
+<title>Single User</title>
 {% endblock %}
 
 
 {% block content %}
-<div class="container mt-4">
+
+
+<!-- reverse relationship between artist and product to fetch artist data from product  -->
+<div class="container mt-4" style="height: fit-content;">
     {% for obj in data.product_set.all %}
       {% if forloop.first %}
         <img src="{{ obj.images.url }}" class="w-100" style="height: 40rem;" alt="art1">
@@ -20,13 +23,18 @@
     <h6>Category : {{data.category}}</h6><br>
     <h6>{{data.bio}}</h6><br><br>
 
+    <!-- Artist update and remove functtionnality -->
+    <a href="{% url 'artist_update' data.id %}"><button class="btn btn-outline-warning">Update</button></a>
+    <a href="{% url 'artist_delete' data.id %}"><button class="btn btn-outline-danger">Remove</button></a>
+
+    <!-- Artist featured work -->
     <u><h3 class="text-center">Featured Work</h3></u><br><br>
     
     <div class="container">
       <div class="row">
         {% for obj in data.product_set.all %}
           <div class="d-flex">
-            <div class="col   text-center">
+            <div class="col text-center">
             <img src="{{ obj.images.url }}" class="img-fluid w-50 h-75" alt="Product Image">
           </div>
             <div class="col mt-4 mb-4">
@@ -34,10 +42,25 @@
             <h6>Category : {{obj.category}}</h6><br>
             <h6>Dimensions : {{obj.dimensions}}</h6><br>
             <h6>Weight : {{obj.weight}}</h6><br>
-            <button class="btn btn-outline-warning col-5 text-black">Add To Cart</button><br><br>
+
+            <!-- Add to cart bbutton can only be available to user and to the artist to which the artwork belongs to -->
+            {% if user != user.is_artist %}
+                      <a href="{% url 'cart_app:cart_add' obj.id %}" class="btn btn-outline-warning text-dark col-5 btn-sm me-4">
+                        Add To Cart
+                      </a>
+                      <i class="bi bi-bookmark-heart fs-2 me-4"></i><br><br>
+                    {% endif %}
+
+                      <!--Update and delete button for artist -->
+                        {% if user.is_artist %}
+                                <a href="{% url 'update_product' obj.id %}"><button class="btn btn-outline-success col-3 text-dark me-4">Update</button></a>
+                                <a href="{% url 'delete_product' obj.id %}"><button class="btn btn-outline-danger col-3 text-dark">delete</button></a>
+                          
+                        {% endif %}
           </div>
           </div>
         {% endfor %}
+
       </div>
     </div>
     
